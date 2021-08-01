@@ -45,7 +45,7 @@ async function smartstore(row) {
     console.log('이미지 크롤링 시작.');
     let imgEls = await page.evaluate(() => {
         let imgEls = Array.from(document.querySelectorAll('#INTRODUCE img')).map((v) => {
-                let imgSrc = v.src.match(/(https:\/\/proxy.smartstore.naver.com).*/g)
+                let imgSrc = v.src.match(/(https:\/\/).*/g)
                 if (imgSrc) {
                     return imgSrc[0];
                 }
@@ -72,12 +72,19 @@ async function smartstore(row) {
     }
     await page.waitForTimeout(5000);
 
+    //(状態) 변경
+    row.status = '完了';
+    await row.save(); // save changes
+
     await page.close();
     await browser.close();
     console.log('이미지 크롤링 종료.');
     }
     catch(e) {
         console.log(e);
+        // 에러값 저장
+        row.status = 'エラー';
+        await row.save(); // save changes
         await page.close();
         await browser.close();
     } 
