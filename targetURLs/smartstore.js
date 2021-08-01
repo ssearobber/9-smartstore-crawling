@@ -31,7 +31,15 @@ async function smartstore(row) {
     await page.setDefaultNavigationTimeout(0);
     await page.goto(row.url);
 
-    await page.waitForTimeout(30000); // 없으면 크롤링 안됨
+    // 브라우져 스크롤 (Infinite Scrolling이미지를 다운받기 위해서)
+    await page.evaluate(() => {
+        playScroll = setInterval(function() {
+            window.scrollBy(0, window.innerHeight);
+        }, 500);
+        // clearInterval(playScroll);
+    });
+
+    await page.waitForTimeout(20000); // 없으면 크롤링 안됨
 
     // 이미지 크롤링
     console.log('이미지 크롤링 시작.');

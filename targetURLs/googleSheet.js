@@ -40,11 +40,11 @@ async function googleSheet() {
         await mkdir();
 
         // smartstore 이미지 크롤링
-        // await smartstore(rows[i]);
+        await smartstore(rows[i]);
 
         //TODO 구글 드라이브에 저장 
         // await googleDrive(rows[i].productPicture);
-        await googleDrive();
+        // await googleDrive();
 
         // tempSave폴더 삭제
         // await rmdir();
